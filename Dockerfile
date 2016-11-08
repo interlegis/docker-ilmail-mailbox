@@ -14,8 +14,11 @@ RUN mkdir /etc/service/dovecot && \
     mv dovecot.sh /etc/service/dovecot/run && \
     chmod +x /etc/service/dovecot/run
 
-RUN groupadd -g 5000 vmail
-RUN useradd -g vmail -u 5000 vmail -d /var/vmail
+RUN mkdir -p /var/vmail && \
+    groupadd -g 5000 vmail && \
+    useradd -g vmail -u 5000 vmail -d /var/vmail && \
+    chown -R vmail:vmail /var/vmail
+VOLUME /var/vmail
 
 RUN groupadd spamd && \
     useradd -g spamd -s /bin/false -d /var/log/spamassassin spamd && \
